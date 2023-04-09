@@ -8,6 +8,7 @@ function App() {
   return (
     <div className="App">
       Salam
+      <button>Hello World</button>
     </div>
   )
 }
