@@ -1,11 +1,23 @@
 import React from 'react'
 // Components
-import Navbar from '../containers/navbar/Navbar'
+import Navbar from '../containers/navbar/Navbar';
+import ClientOnly from '../containers/ClientsOnly';
+import RegisterModal from '../components/modals/RegisterModal';
+import ToasterProvider from '../providers/ToasterProvider';
 
-const Layout = () => {
+const Layout = ({
+    children,
+    }:{
+        children: React.ReactNode
+    }) => {
     return (
         <>
-            <Navbar />
+            <ClientOnly>
+                <ToasterProvider />
+                <RegisterModal />
+                <Navbar />
+            </ClientOnly>
+            {children}
         </>
     )
 }
