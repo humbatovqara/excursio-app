@@ -3,6 +3,7 @@ import React from "react";
 import Navbar from "../containers/navbar/Navbar";
 import ClientOnly from "../containers/ClientsOnly";
 import RegisterModal from "../components/modals/RegisterModal";
+import LoginModal from "../components/modals/LoginModal";
 import ToasterProvider from "../providers/ToasterProvider";
 import { useAppSelector } from "../hooks/redux";
 
@@ -16,6 +17,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <>
       <ClientOnly>
         <ToasterProvider />
+        <LoginModal />
         <RegisterModal />
         <Navbar />
       </ClientOnly>
