@@ -11,6 +11,7 @@ import Heading from "../Heading";
 import Input from "../inputs/Input";
 import { toast } from "react-hot-toast";
 import Button from "../Button";
+import API from "../../enums/api";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
@@ -32,9 +33,9 @@ const RegisterModal = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
-    console.log("------", data);
+
     axios
-      .post("http://164.90.183.86:8003/users/", data)
+      .post(`${API.MAIN_URL}/users/`, data)
       .then(() => {
         registerModal.onClose();
       })
