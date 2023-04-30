@@ -2,10 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { login } from "../actions/Auth";
 
 const initialState: any = {
-  isAuth: null,
-  isLoading: false,
-  isDataLoading: false,
-  loginError: false,
+  currentUser: null,
 };
 
 export const authSlice = createSlice({
@@ -13,19 +10,11 @@ export const authSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    // get user info
-    [login.fulfilled.type]: (state) => {
-      state.isLoading = false;
-      state.loginError = false;
-      state.isAuth = true;
+    [login.fulfilled.type]: (state, action: PayloadAction<any>) => {
+      state.currentUser = action.payload;
     },
-    [login.pending.type]: (state) => {
-      state.isLoading = true;
-    },
-    [login.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.isLoading = false;
-      state.loginError = true;
-    },
+    [login.pending.type]: (state, action: PayloadAction<string>) => {},
+    [login.rejected.type]: (state, action: PayloadAction<string>) => {},
   },
 });
 

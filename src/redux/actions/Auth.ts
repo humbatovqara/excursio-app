@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import API from "../../enums/api";
 
 const options = {
   headers: {
@@ -11,18 +12,12 @@ export const login = createAsyncThunk(
   "auth/login",
   async (user: any, thunkAPI) => {
     try {
-      const response = await axios.post("", user);
-      const { data } = response.data;
-      localStorage.setItem("token", data.accessToken);
+      const response = await axios.post(`${API.MAIN_URL}/auth/login`, user);
+      const { data } = response;
+
+      return data?.is_success;
     } catch (e: any) {
-      return thunkAPI.rejectWithValue(e?.response?.data?.detail);
+      // return thunkAPI.rejectWithValue(e?.response?.data?.detail);
     }
   }
 );
-export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
-  try {
-    localStorage.removeItem("token");
-  } catch (e) {
-    return thunkAPI.rejectWithValue("Regust rejected");
-  }
-});
