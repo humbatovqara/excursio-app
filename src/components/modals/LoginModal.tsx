@@ -18,9 +18,7 @@ import Button from "../Button";
 import Input from "../inputs/Input";
 import Heading from "../Heading";
 import Modal from "./Modal";
-// Icons
-import { AiFillGithub } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
+
 
 const LoginModal = () => {
   const dispatch = useAppDispatch();
