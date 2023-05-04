@@ -5,14 +5,8 @@ import ClientOnly from "../components/ClientsOnly";
 import RegisterModal from "../components/modals/RegisterModal";
 import LoginModal from "../components/modals/LoginModal";
 import ToasterProvider from "../providers/ToasterProvider";
-import { useAppSelector } from "../hooks/redux";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const {
-    auth: { currentUser },
-  } = useAppSelector((state) => state);
-
-  console.log("Layout Index: ", currentUser);
   return (
     <>
       <ClientOnly>

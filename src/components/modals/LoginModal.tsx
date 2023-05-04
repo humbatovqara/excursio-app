@@ -1,30 +1,21 @@
 "use client";
 
-import { useCallback, useState } from "react";
-// Redux
-import { useAppDispatch } from "../../hooks/redux";
-import { login } from "../../redux/actions/Auth";
-// API
-import axios from "axios";
-import API from "../../enums/api";
-// Hooks
-import useRegisterModal from "../../hooks/useRegisterModal";
-import useLoginModal from "../../hooks/useLoginModal";
 // Libs
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
 // Components
-import Button from "../Button";
 import Input from "../inputs/Input";
 import Heading from "../Heading";
 import Modal from "./Modal";
-
+// Redux
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { onClose } from "../../redux/reducers/AuthSlice";
+import { login } from "../../redux/actions/Auth";
 
 const LoginModal = () => {
   const dispatch = useAppDispatch();
-  const loginModal = useLoginModal();
-
-  const [isLoading, setIsLoading] = useState(false);
+  const {
+    auth: { isLoading, loginModal },
+  } = useAppSelector((state) => state);
 
   const {
     register,
@@ -38,8 +29,11 @@ const LoginModal = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true);
     dispatch(login(data));
+  };
+
+  const closeModal = () => {
+    dispatch(onClose());
   };
 
   const bodyContent = (
@@ -72,7 +66,7 @@ const LoginModal = () => {
       <div className="justify-center flex flex-row items-center gap-2">
         <div>Forget your password ?</div>
         <div
-          onClick={loginModal.onClose}
+          onClick={closeModal}
           className="text-neutral-800 cursor-pointer hover:underline"
         >
           Help
@@ -87,7 +81,7 @@ const LoginModal = () => {
       isOpen={loginModal.isOpen}
       title="Login"
       actionLabel="Continue"
-      onClose={loginModal.onClose}
+      onClose={closeModal}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
