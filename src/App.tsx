@@ -1,10 +1,22 @@
-import React from 'react'
-import Layout from './layout'
+import React, { useEffect } from "react";
+import Layout from "./layout";
+// Redux
+import { useAppDispatch, useAppSelector } from "./hooks/redux";
+import { usersMe } from "./redux/actions/Auth";
 
 const App = () => {
-  return (
-    <Layout />
-  )
-}
+  const dispatch = useAppDispatch();
+  const {
+    auth: { loginUser },
+  } = useAppSelector((state) => state);
 
-export default App
+  console.log("loginUser: ", loginUser);
+
+  useEffect(() => {
+    dispatch(usersMe());
+  }, []);
+
+  return <Layout />;
+};
+
+export default App;

@@ -1,20 +1,20 @@
 "use client";
 
-import axios from "axios";
-
-import { useCallback, useState } from "react";
+// Libs
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import useRegisterModal from "../../hooks/useRegisterModal";
+// Components
 import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../inputs/Input";
-import { toast } from "react-hot-toast";
-import Button from "../Button";
-import API from "../../enums/api";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { onRegisterClose } from "../../redux/reducers/AuthSlice";
+import { user } from "../../redux/actions/Auth";
 
 const RegisterModal = () => {
-  const registerModal = useRegisterModal();
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const {
+    auth: { isLoading, registerModal },
+  } = useAppSelector((state) => state);
 
   const {
     register,
@@ -31,19 +31,11 @@ const RegisterModal = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true);
+    dispatch(user(data));
+  };
 
-    axios
-      .post(`${API.MAIN_URL}/users/`, data)
-      .then(() => {
-        registerModal.onClose();
-      })
-      .catch((error) => {
-        toast.error("Something went wrong !");
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+  const closeModal = () => {
+    dispatch(onRegisterClose());
   };
 
   const bodyContent = (
@@ -99,7 +91,7 @@ const RegisterModal = () => {
       <div className="justify-center flex flex-row items-center gap-2">
         <div>Already have an account ?</div>
         <div
-          onClick={registerModal.onClose}
+          onClick={closeModal}
           className="text-neutral-800 cursor-pointer hover:underline"
         >
           Log In
@@ -114,7 +106,7 @@ const RegisterModal = () => {
       isOpen={registerModal.isOpen}
       title="Register"
       actionLabel="Continue"
-      onClose={registerModal.onClose}
+      onClose={closeModal}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}

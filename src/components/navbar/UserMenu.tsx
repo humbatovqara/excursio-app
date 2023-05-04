@@ -4,15 +4,14 @@ import { AiOutlineMenu } from "react-icons/ai";
 // Components
 import MenuItem from "./MenuItem";
 import Avatar from "../Avatar";
-import useRegisterModal from "../../hooks/useRegisterModal";
-import useLoginModal from "../../hooks/useLoginModal";
-import { useAppSelector } from "../../hooks/redux";
+// Redux
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { onOpen, onRegisterOpen } from "../../redux/reducers/AuthSlice";
 
 const UserMenu = () => {
-  const registerModal = useRegisterModal();
-  const loginModal = useLoginModal();
+  const dispatch = useAppDispatch();
   const {
-    auth: { currentUser },
+    auth: { loginUser },
   } = useAppSelector((state) => state);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -20,6 +19,14 @@ const UserMenu = () => {
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
+
+  const openLoginModal = () => {
+    dispatch(onOpen());
+  };
+
+  const openRegisterModal = () => {
+    dispatch(onRegisterOpen());
+  };
 
   return (
     <div className="relative">
@@ -78,7 +85,7 @@ const UserMenu = () => {
                 text-sm"
         >
           <div className="flex flex-col cursor-pointer">
-            {currentUser ? (
+            {loginUser?.is_success ? (
               <>
                 <MenuItem onClick={() => {}} label="My trips" />
                 <MenuItem onClick={() => {}} label="My favorites" />
@@ -90,8 +97,8 @@ const UserMenu = () => {
               </>
             ) : (
               <>
-                <MenuItem onClick={loginModal.onOpen} label="Login" />
-                <MenuItem onClick={registerModal.onOpen} label="Sign up" />
+                <MenuItem onClick={openLoginModal} label="Login" />
+                <MenuItem onClick={openRegisterModal} label="Sign up" />
               </>
             )}
           </div>
