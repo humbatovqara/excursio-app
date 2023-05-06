@@ -2,8 +2,9 @@ import React from "react";
 // Components
 import Navbar from "../components/navbar/Navbar";
 import ClientOnly from "../components/ClientsOnly";
-import RegisterModal from "../components/modals/RegisterModal";
+import RentModal from "../components/modals/RentModal";
 import LoginModal from "../components/modals/LoginModal";
+import RegisterModal from "../components/modals/RegisterModal";
 import ToasterProvider from "../providers/ToasterProvider";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -11,6 +12,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <>
       <ClientOnly>
         <ToasterProvider />
+        <RentModal />
         <LoginModal />
         <RegisterModal />
         <Navbar />

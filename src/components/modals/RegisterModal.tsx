@@ -9,12 +9,13 @@ import Input from "../inputs/Input";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { user } from "../../redux/actions/Auth";
 import { authSlice } from "../../redux/reducers/AuthSlice";
+import { useCallback } from "react";
 
 const RegisterModal = () => {
   const dispatch = useAppDispatch();
-  const { onRegisterClose } = authSlice.actions;
+  const { onRegisterClose, onOpen } = authSlice.actions;
   const {
-    auth: { isLoading, registerModal },
+    auth: { isLoading, registerModal, loginModal },
   } = useAppSelector((state) => state);
 
   const {
@@ -38,6 +39,11 @@ const RegisterModal = () => {
   const closeModal = () => {
     dispatch(onRegisterClose());
   };
+
+  const toggleModal = useCallback(() => {
+    dispatch(onRegisterClose());
+    dispatch(onOpen());
+  }, [loginModal, registerModal]);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -92,7 +98,7 @@ const RegisterModal = () => {
       <div className="justify-center flex flex-row items-center gap-2">
         <div>Already have an account ?</div>
         <div
-          onClick={closeModal}
+          onClick={toggleModal}
           className="text-neutral-800 cursor-pointer hover:underline"
         >
           Log In
