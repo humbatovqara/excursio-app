@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { login, user, usersMe } from "../actions/Auth";
+import { login, logout, user, usersMe } from "../actions/Auth";
 import { toast } from "react-hot-toast";
 
 interface IAuth {
@@ -47,6 +47,9 @@ export const authSlice = createSlice({
     onRegisterClose: (state) => {
       state.registerModal.isOpen = false;
     },
+    logOut(state) {
+      state.loginUser = null;
+    },
   },
   extraReducers: {
     // Login
@@ -61,6 +64,10 @@ export const authSlice = createSlice({
     },
     [login.rejected.type]: (state, action: PayloadAction<any>) => {
       state.isLoading = true;
+    },
+    // Logout
+    [logout.fulfilled.type]: (state, action: PayloadAction<any>) => {
+      // toast.success(action.payload?.msg);
     },
     // Register
     [user.fulfilled.type]: (state, action: PayloadAction<any>) => {
@@ -85,11 +92,4 @@ export const authSlice = createSlice({
   },
 });
 
-export const {
-  onOpen,
-  onClose,
-  setIsLoading,
-  onRegisterOpen,
-  onRegisterClose,
-} = authSlice.actions;
 export default authSlice.reducer;

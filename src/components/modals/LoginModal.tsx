@@ -8,11 +8,12 @@ import Heading from "../Heading";
 import Modal from "./Modal";
 // Redux
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { onClose } from "../../redux/reducers/AuthSlice";
 import { login } from "../../redux/actions/Auth";
+import { authSlice } from "../../redux/reducers/AuthSlice";
 
 const LoginModal = () => {
   const dispatch = useAppDispatch();
+  const { onClose } = authSlice.actions;
   const {
     auth: { isLoading, loginModal },
   } = useAppSelector((state) => state);
