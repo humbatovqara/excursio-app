@@ -1,9 +1,9 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, Suspense, useEffect } from "react";
 // Redux
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { authSlice } from "../../redux/reducers/AuthSlice";
 // Components
-import Map from "../Map";
+// import Map from "../Map";
 import Modal from "./Modal";
 import Heading from "../Heading";
 import CategoryInput from "../inputs/CategoryInput";
@@ -11,6 +11,8 @@ import CountrySelect from "../inputs/CountrySelect";
 import { categories } from "../navbar/Categories";
 // Libs
 import { FieldValues, useForm } from "react-hook-form";
+
+const Map = React.lazy(() => import("../Map"));
 
 enum STEPS {
   CATEGORY = 0,
@@ -29,6 +31,8 @@ const RentModal = () => {
   } = useAppSelector((state) => state);
 
   const [step, setStep] = useState(STEPS.CATEGORY);
+  const [isMapLoading, setIsMapLoading] = useState(true);
+  const [currentLocation, setCurrentLocation] = useState(null);
 
   const {
     register,
@@ -53,6 +57,14 @@ const RentModal = () => {
 
   const category = watch("category");
   const location = watch("location");
+
+  useEffect(() => {
+    setIsMapLoading(true);
+    setCurrentLocation(location);
+  }, [location]);
+  useEffect(() => {
+    setIsMapLoading(false);
+  }, [currentLocation]);
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -127,7 +139,9 @@ const RentModal = () => {
           value={location}
           onChange={(value) => setCustomValue("location", value)}
         />
-        {/* <Map center={location?.latlng} /> */}
+        <Suspense fallback={<div>Loading...</div>}>
+          {!isMapLoading && <Map center={location?.latlng} />}
+        </Suspense>
       </div>
     );
   }
