@@ -6,10 +6,12 @@ import MenuItem from "./MenuItem";
 import Avatar from "../Avatar";
 // Redux
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { onOpen, onRegisterOpen } from "../../redux/reducers/AuthSlice";
+import { authSlice } from "../../redux/reducers/AuthSlice";
+import { logout } from "../../redux/actions/Auth";
 
 const UserMenu = () => {
   const dispatch = useAppDispatch();
+  const { onOpen, onRegisterOpen } = authSlice.actions;
   const {
     auth: { loginUser },
   } = useAppSelector((state) => state);
@@ -93,7 +95,7 @@ const UserMenu = () => {
                 <MenuItem onClick={() => {}} label="My properties" />
                 <MenuItem onClick={() => {}} label="Airbnb my home" />
                 <hr />
-                <MenuItem onClick={() => {}} label="Logout" />
+                <MenuItem onClick={() => dispatch(logout())} label="Logout" />
               </>
             ) : (
               <>

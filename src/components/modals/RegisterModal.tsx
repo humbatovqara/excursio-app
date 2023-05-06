@@ -7,11 +7,12 @@ import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../inputs/Input";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { onRegisterClose } from "../../redux/reducers/AuthSlice";
 import { user } from "../../redux/actions/Auth";
+import { authSlice } from "../../redux/reducers/AuthSlice";
 
 const RegisterModal = () => {
   const dispatch = useAppDispatch();
+  const { onRegisterClose } = authSlice.actions;
   const {
     auth: { isLoading, registerModal },
   } = useAppSelector((state) => state);
