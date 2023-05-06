@@ -11,9 +11,9 @@ import { logout } from "../../redux/actions/Auth";
 
 const UserMenu = () => {
   const dispatch = useAppDispatch();
-  const { onOpen, onRegisterOpen } = authSlice.actions;
+  const { onOpen, onRegisterOpen, onRentModalOpen } = authSlice.actions;
   const {
-    auth: { loginUser },
+    auth: { loginUser, loginModal, rentModal },
   } = useAppSelector((state) => state);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -30,11 +30,19 @@ const UserMenu = () => {
     dispatch(onRegisterOpen());
   };
 
+  const onRent = useCallback(() => {
+    if (!loginUser?.is_success) {
+      return dispatch(onOpen());
+    }
+
+    dispatch(onRentModalOpen());
+  }, [loginUser, loginModal, rentModal]);
+
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
         <div
-          onClick={() => {}}
+          onClick={onRent}
           className="hidden
             md:block
             text-sm 
@@ -93,7 +101,10 @@ const UserMenu = () => {
                 <MenuItem onClick={() => {}} label="My favorites" />
                 <MenuItem onClick={() => {}} label="My reservations" />
                 <MenuItem onClick={() => {}} label="My properties" />
-                <MenuItem onClick={() => {}} label="Airbnb my home" />
+                <MenuItem
+                  onClick={() => dispatch(onRentModalOpen())}
+                  label="Airbnb my home"
+                />
                 <hr />
                 <MenuItem onClick={() => dispatch(logout())} label="Logout" />
               </>
