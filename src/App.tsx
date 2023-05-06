@@ -10,7 +10,7 @@ const App = () => {
     auth: { loginUser },
   } = useAppSelector((state) => state);
 
-  // console.log("loginUser: ", loginUser);
+  console.log("loginUser: ", loginUser);
 
   useEffect(() => {
     dispatch(usersMe());
