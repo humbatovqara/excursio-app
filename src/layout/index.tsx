@@ -17,7 +17,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <RegisterModal />
         <Navbar />
       </ClientOnly>
-      {children}
+      <div className="pb-20 pt-28">{children}</div>
     </>
   );
 };
