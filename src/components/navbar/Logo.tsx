@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Logo = () => {
+  const navigate = useNavigate();
   return (
-    <div>
+    <div onClick={() => navigate("/")}>
       <img
-        src="./logo.png"
+        src="/logo.png"
         alt="Logo"
         className="hidden md:block cursor-pointer"
         height={100}

@@ -63,7 +63,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
   return (
     <div
-      //   onClick={() => navigate(`/listings/${data.id}`)}
+      onClick={() => navigate(`/listings/${data._id}`)}
       className="col-span-1 cursor-pointer group"
     >
       <div className="flex flex-col gap-2 w-full">
@@ -87,7 +87,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
               transition
             "
           />
-          <div
+          {/* <div
             className="
             absolute
             top-3
@@ -95,7 +95,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
           "
           >
             <HeartButton listingId={data.id} currentUser={currentUser} />
-          </div>
+          </div> */}
         </div>
         <div className="font-semibold text-lg">
           {location?.region}, {location?.label}
