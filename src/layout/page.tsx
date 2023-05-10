@@ -41,7 +41,7 @@ const Home = () => {
           {listings.map((listing: any) => (
             <ListingCard
               currentUser={loginUser}
-              key={listing._id}
+              key={listing.id}
               data={listing}
             />
           ))}

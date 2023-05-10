@@ -1,6 +1,6 @@
 const listings = [
   {
-    _id: 1,
+    id: 1,
     title: "A title",
     description: "A description",
     imageSrc:
@@ -15,7 +15,7 @@ const listings = [
     price: 500,
   },
   {
-    _id: 2,
+    id: 2,
     title: "B title",
     description: "B description",
     imageSrc:
