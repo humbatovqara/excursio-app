@@ -14,7 +14,7 @@ function Listing() {
     auth: { loginUser },
   } = useAppSelector((state) => state);
 
-  const listing = listings.find((item) => item._id === Number(id));
+  const listing = listings.find((item) => item.id === Number(id));
 
   if (!listing) {
     return (
