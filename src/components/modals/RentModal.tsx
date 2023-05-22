@@ -1,7 +1,7 @@
 import React, { useMemo, useState, Suspense, useEffect } from "react";
 // Redux
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { authSlice } from "../../redux/reducers/AuthSlice";
+import { roomSlice } from "../../redux/reducers/RoomSlice";
 // Components
 import Modal from "./Modal";
 import Heading from "../Heading";
@@ -32,9 +32,9 @@ enum STEPS {
 const RentModal = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { onRentModalOpen, onRentModalClose } = authSlice.actions;
+  const { onRentModalOpen, onRentModalClose } = roomSlice.actions;
   const {
-    auth: { rentModal },
+    room: { rentModal },
   } = useAppSelector((state) => state);
 
   const [step, setStep] = useState(STEPS.CATEGORY);

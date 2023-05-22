@@ -6,14 +6,17 @@ import MenuItem from "./MenuItem";
 import Avatar from "../Avatar";
 // Redux
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { roomSlice } from "../../redux/reducers/RoomSlice";
 import { authSlice } from "../../redux/reducers/AuthSlice";
 import { logout } from "../../redux/actions/Auth";
 
 const UserMenu = () => {
   const dispatch = useAppDispatch();
-  const { onOpen, onRegisterOpen, onRentModalOpen } = authSlice.actions;
+  const { onOpen, onRegisterOpen } = authSlice.actions;
+  const { onRentModalOpen } = roomSlice.actions;
   const {
-    auth: { loginUser, loginModal, rentModal },
+    auth: { loginUser, loginModal },
+    room: { rentModal },
   } = useAppSelector((state) => state);
 
   const [isOpen, setIsOpen] = useState(false);

@@ -29,7 +29,10 @@ export const createRoom = createAsyncThunk(
     };
     console.log("JSON Stringify", JSON.stringify(roomData));
     formData.append("room", JSON.stringify(roomData));
-    formData.append("photos", room.imageSrc);
+    formData.append(
+      "photos",
+      "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg"
+    );
     try {
       const response = await $api.post(`${API.MAIN_URL}/rooms/`, formData, {
         headers: {
