@@ -102,7 +102,8 @@ const RentModal = () => {
     console.log("Rend Modal Submit", data);
     dispatch(createRoom(data));
 
-    /* axios
+    /* 
+    axios
       .post("", data)
       .then(() => {
         navigate("/", { replace: true });
