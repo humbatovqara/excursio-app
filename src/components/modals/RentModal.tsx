@@ -16,6 +16,7 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { createRoom } from "../../redux/actions/Room";
 
 const Map = React.lazy(() => import("../Map"));
 
@@ -54,7 +55,7 @@ const RentModal = () => {
       location: null,
       guestCount: 1,
       roomCount: 1,
-      bathroomCount: 1,
+      bed_count: 1,
       imageSrc: "",
       price: 1,
       title: "",
@@ -66,7 +67,7 @@ const RentModal = () => {
   const location = watch("location");
   const guestCount = watch("guestCount");
   const roomCount = watch("roomCount");
-  const bathroomCount = watch("bathroomCount");
+  const bedCount = watch("bed_count");
   const imageSrc = watch("imageSrc");
 
   useEffect(() => {
@@ -98,11 +99,12 @@ const RentModal = () => {
       return onNext();
     }
     setIsLoading(true);
+    console.log("Rend Modal Submit", data);
+    dispatch(createRoom(data));
 
-    axios
+    /* axios
       .post("", data)
       .then(() => {
-        toast.success("Listing created !");
         navigate("/", { replace: true });
         reset();
         setStep(STEPS.CATEGORY);
@@ -114,7 +116,7 @@ const RentModal = () => {
       })
       .finally(() => {
         setIsLoading(false);
-      });
+      }); */
   };
 
   const actionLabel = useMemo(() => {
@@ -203,10 +205,10 @@ const RentModal = () => {
         />
         <hr />
         <Counter
-          onChange={(value) => setCustomValue("bathroomCount", value)}
-          value={bathroomCount}
-          title="Bathrooms"
-          subtitle="How many bathrooms do you have?"
+          onChange={(value) => setCustomValue("bed_count", value)}
+          value={bedCount}
+          title="Beds"
+          subtitle="How many beds do you have?"
         />
       </div>
     );

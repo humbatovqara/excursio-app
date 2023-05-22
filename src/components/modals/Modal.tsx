@@ -36,8 +36,11 @@ const Modal: React.FC<ModalProps> = ({
   }, [isOpen]);
 
   const handleClose = useCallback(() => {
-    setShowModal(false);
+    /* if (disabled) {
+      return;
+    } */
 
+    setShowModal(false);
     setTimeout(() => {
       onClose();
     }, 300);
