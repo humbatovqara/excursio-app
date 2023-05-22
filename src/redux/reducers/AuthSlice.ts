@@ -13,10 +13,6 @@ interface IAuth {
     isOpen: boolean;
     message: string;
   };
-  rentModal: {
-    isOpen: boolean;
-    message: string;
-  };
 }
 
 const initialState: IAuth = {
@@ -27,10 +23,6 @@ const initialState: IAuth = {
     message: "",
   },
   registerModal: {
-    isOpen: false,
-    message: "",
-  },
-  rentModal: {
     isOpen: false,
     message: "",
   },
@@ -54,12 +46,6 @@ export const authSlice = createSlice({
     },
     onRegisterClose: (state) => {
       state.registerModal.isOpen = false;
-    },
-    onRentModalOpen: (state) => {
-      state.rentModal.isOpen = true;
-    },
-    onRentModalClose: (state) => {
-      state.rentModal.isOpen = false;
     },
     logOut(state) {
       state.loginUser = null;
