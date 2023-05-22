@@ -94,6 +94,7 @@ export const authSlice = createSlice({
     },
     [user.rejected.type]: (state) => {
       state.isLoading = true;
+      toast.error("Something Went Wrong!");
     },
     // Users Me
     [usersMe.fulfilled.type]: (state, action: PayloadAction<any>) => {
