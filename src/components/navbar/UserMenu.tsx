@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 // Icons
 import { AiOutlineMenu } from "react-icons/ai";
 // Components
@@ -9,8 +10,10 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { roomSlice } from "../../redux/reducers/RoomSlice";
 import { authSlice } from "../../redux/reducers/AuthSlice";
 import { logout } from "../../redux/actions/Auth";
+import { getReservations } from "../../redux/actions/Reservation";
 
 const UserMenu = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { onOpen, onRegisterOpen } = authSlice.actions;
   const { onRentModalOpen } = roomSlice.actions;
@@ -102,14 +105,26 @@ const UserMenu = () => {
               <>
                 <MenuItem onClick={() => {}} label="My trips" />
                 <MenuItem onClick={() => {}} label="My favorites" />
-                <MenuItem onClick={() => {}} label="My reservations" />
+                <MenuItem
+                  onClick={() => {
+                    navigate("/reservations");
+                    toggleOpen();
+                  }}
+                  label="My reservations"
+                />
                 <MenuItem onClick={() => {}} label="My properties" />
                 <MenuItem
                   onClick={() => dispatch(onRentModalOpen())}
                   label="Airbnb my home"
                 />
                 <hr />
-                <MenuItem onClick={() => dispatch(logout())} label="Logout" />
+                <MenuItem
+                  onClick={() => {
+                    dispatch(logout());
+                    toggleOpen();
+                  }}
+                  label="Logout"
+                />
               </>
             ) : (
               <>

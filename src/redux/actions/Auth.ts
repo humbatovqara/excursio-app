@@ -18,8 +18,6 @@ export const login = createAsyncThunk(
       localStorage.setItem("token", data.result.access_token);
       localStorage.setItem("token_type", data.result.token_type);
 
-      console.log("Login Data: ", data);
-
       return data;
     } catch (e: any) {
       return thunkAPI.rejectWithValue("Error");
@@ -29,14 +27,12 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
-    const response = await axios.post(`${API.MAIN_URL}/auth/logout`);
-    const { data } = response;
+    // const response = await axios.post(`${API.MAIN_URL}/auth/logout`);
+    // const { data } = response;
     localStorage.removeItem("token");
     localStorage.removeItem("token_type");
 
-    console.log("Logout Data: ", data);
-
-    return data;
+    // return data;
   } catch (e: any) {
     return thunkAPI.rejectWithValue("Error");
   }
@@ -46,8 +42,6 @@ export const user = createAsyncThunk("users", async (user: any, thunkAPI) => {
   try {
     const response = await axios.post(`${API.MAIN_URL}/users/`, user);
     const { data } = response;
-
-    console.log("Register Data: ", data);
 
     return data;
   } catch (e: any) {

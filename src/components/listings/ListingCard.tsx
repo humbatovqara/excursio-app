@@ -1,9 +1,17 @@
 import React, { useCallback, useMemo } from "react";
-import HeartButton from "../HeartButton";
-import { useNavigate } from "react-router-dom";
-import useCountries from "../../hooks/useCountries";
-import { format } from "date-fns";
+// Components
 import Button from "../Button";
+import HeartButton from "../HeartButton";
+// Libs
+import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../hooks/redux";
+// Redux
+import { getRoomId } from "../../redux/actions/Room";
+// Hooks
+import useCountries from "../../hooks/useCountries";
+// Enums
+import API from "../../enums/api";
 
 interface ListingCardProps {
   data: any;
@@ -25,9 +33,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
   currentUser,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { getByValue } = useCountries();
 
-  const location = getByValue(data.locationValue);
+  const location = getByValue(data.address_zip_code);
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -61,9 +70,14 @@ const ListingCard: React.FC<ListingCardProps> = ({
     return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [reservation]);
 
+  const handleClickListingCard = () => {
+    navigate(`/listings/${data.id}`);
+    dispatch(getRoomId(data.id));
+  };
+
   return (
     <div
-      onClick={() => navigate(`/listings/${data.id}`)}
+      onClick={() => handleClickListingCard()}
       className="col-span-1 cursor-pointer group"
     >
       <div className="flex flex-col gap-2 w-full">
@@ -77,7 +91,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
           "
         >
           <img
-            src={data.imageSrc}
+            src={`${API.MAIN_URL}/${data.photos[0].url}`}
             alt="Listing"
             className="
               object-cover 
@@ -98,7 +112,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
           </div> */}
         </div>
         <div className="font-semibold text-lg">
-          {location?.region}, {location?.label}
+          {data?.address_state}, {data?.address_city}
         </div>
         <div className="font-light text-neutral-500">
           {reservationDate || data.category}

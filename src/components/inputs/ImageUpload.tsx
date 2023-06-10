@@ -5,22 +5,23 @@ import { TbPhotoPlus } from "react-icons/tb";
 
 interface ImageUploadProps {
   onChange: (value: string) => void;
-  value: string;
+  value: any;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
   const uploadPhoto = useCallback(
     (e: any) => {
       const file = e.target.files[0];
-      const reader = new FileReader();
+      // onChange(URL.createObjectURL(file));
+      onChange(file);
+      /* const reader = new FileReader();
       reader.onload = () => {
         const imageUrl = reader.result as string;
-        console.log("----", imageUrl);
         onChange(imageUrl);
       };
       if (file) {
         reader.readAsDataURL(file);
-      }
+      } */
     },
     [onChange]
   );
@@ -52,7 +53,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
         <div className="absolute inset-0 w-full h-full">
           <img
             style={{ objectFit: "contain", width: "100%", height: "100%" }}
-            src={value}
+            src={URL.createObjectURL(value)}
             alt="House"
           />
         </div>

@@ -14,14 +14,8 @@ interface ListingInfoProps {
   guestCount: number;
   roomCount: number;
   bathroomCount: number;
-  category:
-    | {
-        icon: IconType;
-        label: string;
-        description: string;
-      }
-    | undefined;
-  locationValue: string;
+  category: any | undefined;
+  locationValue: any[];
 }
 
 const ListingInfo: React.FC<ListingInfoProps> = ({
@@ -35,7 +29,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
 }) => {
   const { getByValue } = useCountries();
 
-  const coordinates = getByValue(locationValue)?.latlng;
+  // const coordinates = getByValue(locationValue)?.latlng;
 
   return (
     <div className="col-span-4 flex flex-col gap-8">
@@ -50,7 +44,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
             gap-2
           "
         >
-          <div>Hosted by {user?.name}</div>
+          <div>Hosted by {user?.full_name}</div>
           <Avatar src={user?.image} />
         </div>
         <div
@@ -65,17 +59,19 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
         >
           <div>{guestCount} guests</div>
           <div>{roomCount} rooms</div>
-          <div>{bathroomCount} bathrooms</div>
+          <div>{bathroomCount} beds</div>
         </div>
       </div>
       <hr />
-      {category && (
-        <ListingCategory
-          icon={category.icon}
-          label={category?.label}
-          description={category?.description}
-        />
-      )}
+      {category &&
+        category.map((item: any) => (
+          <ListingCategory
+            key={item?.id}
+            // icon={item.icon}
+            label={item?.name}
+            description={item?.description}
+          />
+        ))}
       <hr />
       <div
         className="
@@ -84,7 +80,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
         {description}
       </div>
       <hr />
-      <Map center={coordinates} />
+      <Map center={locationValue} />
     </div>
   );
 };

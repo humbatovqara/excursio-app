@@ -10,12 +10,10 @@ import CategoryInput from "../inputs/CategoryInput";
 import CountrySelect from "../inputs/CountrySelect";
 import ImageUpload from "../inputs/ImageUpload";
 import Counter from "../inputs/Counter";
+import Checkbox from "../inputs/Checkbox";
 import { categories } from "../navbar/Categories";
 // Libs
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import axios from "axios";
-import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import { createRoom } from "../../redux/actions/Room";
 
 const Map = React.lazy(() => import("../Map"));
@@ -24,23 +22,24 @@ enum STEPS {
   CATEGORY = 0,
   LOCATION = 1,
   INFO = 2,
-  IMAGES = 3,
-  DESCRIPTION = 4,
-  PRICE = 5,
+  AMENTIES = 3,
+  IMAGES = 4,
+  DESCRIPTION = 5,
+  PRICE = 6,
 }
 
 const RentModal = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { onRentModalOpen, onRentModalClose } = roomSlice.actions;
   const {
-    room: { rentModal },
+    room: { rentModal, allAmenties },
   } = useAppSelector((state) => state);
 
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isMapLoading, setIsMapLoading] = useState(true);
   const [currentLocation, setCurrentLocation] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
   const {
     register,
@@ -51,7 +50,8 @@ const RentModal = () => {
     reset,
   } = useForm<FieldValues>({
     defaultValues: {
-      category: "",
+      category: 0,
+      amenties: [],
       location: null,
       guestCount: 1,
       roomCount: 1,
@@ -94,30 +94,28 @@ const RentModal = () => {
     setStep((value) => value + 1);
   };
 
+  const handleCheckboxChange = (itemId: number) => {
+    if (selectedItems.includes(itemId)) {
+      setSelectedItems(selectedItems.filter((id) => id !== itemId));
+      setValue(
+        "amenties",
+        selectedItems.filter((id) => id !== itemId)
+      );
+    } else {
+      setSelectedItems([...selectedItems, itemId]);
+      setValue("amenties", [...selectedItems, itemId]);
+    }
+  };
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     if (step !== STEPS.PRICE) {
       return onNext();
     }
-    setIsLoading(true);
     console.log("Rend Modal Submit", data);
+    setIsLoading(true);
     dispatch(createRoom(data));
-
-    /* 
-    axios
-      .post("", data)
-      .then(() => {
-        navigate("/", { replace: true });
-        reset();
-        setStep(STEPS.CATEGORY);
-        dispatch(onRentModalClose());
-      })
-      .catch((err) => {
-        console.log(err);
-        toast("Something went wrong.");
-      })
-      .finally(() => {
-        setIsLoading(false);
-      }); */
+    reset();
+    setStep(STEPS.CATEGORY);
   };
 
   const actionLabel = useMemo(() => {
@@ -153,10 +151,10 @@ const RentModal = () => {
         "
       >
         {categories.map((item) => (
-          <div key={item.label} className="col-span-1">
+          <div key={item.id} className="col-span-1">
             <CategoryInput
-              onClick={(category) => setCustomValue("category", category)}
-              selected={category === item.label}
+              onClick={() => setCustomValue("category", item.id)}
+              selected={category === item.id}
               label={item.label}
               icon={item.icon}
             />
@@ -211,6 +209,26 @@ const RentModal = () => {
           title="Beds"
           subtitle="How many beds do you have?"
         />
+      </div>
+    );
+  }
+
+  if (step === STEPS.AMENTIES) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Share some basics about your place"
+          subtitle="What amenities do you have?"
+        />
+        {allAmenties.result.map((item: any) => (
+          <div key={item.id} className="col-span-1">
+            <Checkbox
+              label={item.name}
+              checked={selectedItems.includes(item.id)}
+              onChange={() => handleCheckboxChange(item.id)}
+            />
+          </div>
+        ))}
       </div>
     );
   }

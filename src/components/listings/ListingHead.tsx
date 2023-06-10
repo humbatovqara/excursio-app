@@ -1,11 +1,12 @@
 "use client";
+import API from "../../enums/api";
 import useCountries from "../../hooks/useCountries";
 import Heading from "../Heading";
 import HeartButton from "../HeartButton";
 
 interface ListingHeadProps {
   title: string;
-  locationValue: string;
+  locationValue: any[];
   imageSrc: string;
   id: string;
   currentUser?: any | null;
@@ -20,13 +21,13 @@ const ListingHead: React.FC<ListingHeadProps> = ({
 }) => {
   const { getByValue } = useCountries();
 
-  const location = getByValue(locationValue);
+  // const location = getByValue(locationValue);
 
   return (
     <>
       <Heading
         title={title}
-        subtitle={`${location?.region}, ${location?.label}`}
+        subtitle={`${locationValue[0]}, ${locationValue[1]}`}
       />
       <div
         className="
@@ -37,7 +38,7 @@ const ListingHead: React.FC<ListingHeadProps> = ({
         "
       >
         <img
-          src={imageSrc}
+          src={`${API.MAIN_URL}/${imageSrc}`}
           className="object-fill object-center w-full"
           alt="Image"
         />
