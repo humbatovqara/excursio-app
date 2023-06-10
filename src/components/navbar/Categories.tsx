@@ -22,66 +22,79 @@ import CategoryBox from "../CategoryBox";
 
 export const categories = [
   {
+    id: 1,
     label: "Beach",
     icon: TbBeach,
     description: "This property is close to beach",
   },
   {
+    id: 2,
     label: "Windmills",
     icon: GiWindmill,
     description: "This property has windmills",
   },
   {
+    id: 3,
     label: "Modern",
     icon: MdOutlineVilla,
     description: "This property is modern",
   },
   {
+    id: 4,
     label: "Countryside",
     icon: TbMountain,
     description: "This property is in the countryside",
   },
   {
+    id: 5,
     label: "Pools",
     icon: TbPool,
     description: "This property has a pool",
   },
   {
+    id: 6,
     label: "Islands",
     icon: GiIsland,
     description: "This property is on an island",
   },
   {
+    id: 7,
     label: "Lake",
     icon: GiBoatFishing,
     description: "This property is close to a lake",
   },
   {
+    id: 8,
     label: "Skiing",
     icon: FaSkiing,
     description: "This property has skiing activities",
   },
   {
+    id: 9,
     label: "Castles",
     icon: GiCastle,
     description: "This property is in a castle",
   },
   {
+    id: 10,
     label: "Camping",
     icon: GiForestCamp,
     description: "This property has camping activities",
   },
   {
+    id: 11,
     label: "Cave",
     icon: GiCaveEntrance,
     description: "This property is in cave",
   },
   {
+    id: 12,
     label: "Barns",
     icon: GiBarn,
     description: "This property is in the barn",
   },
   {
+    id: 13,
     label: "Lux",
     icon: IoDiamond,
     description: "This property is luxurious",

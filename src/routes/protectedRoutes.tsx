@@ -3,15 +3,15 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useAppSelector } from "../hooks/redux";
 
 const ProtectedRoutes = (props: any) => {
-  const { isAuth } = useAppSelector((state) => state.auth);
+  const { loginUser } = useAppSelector((state) => state.auth);
   let navigate = useNavigate();
   let location = useLocation();
   useEffect(() => {
-    if (isAuth === false) {
+    if (!loginUser?.is_success) {
       navigate("/login", { state: location.pathname });
     }
-  }, [isAuth]);
-  return isAuth ? <Outlet /> : null;
+  }, [loginUser]);
+  return loginUser?.is_success ? <Outlet /> : null;
 };
 
 export default ProtectedRoutes;

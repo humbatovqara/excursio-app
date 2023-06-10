@@ -1,20 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 // Components
 import ClientOnly from "../components/ClientsOnly";
 import Container from "../components/Container";
 import EmptyState from "../components/EmptyState";
-import listings from "../enums/listing";
 import ListingCard from "../components/listings/ListingCard";
 // Redux
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { useAppSelector } from "../hooks/redux";
 
 const Home = () => {
-  const dispatch = useAppDispatch();
   const {
     auth: { loginUser },
+    room: { allRooms },
   } = useAppSelector((state) => state);
 
-  if (listings.length == 0) {
+  if (allRooms?.result?.length == 0) {
     return (
       <ClientOnly>
         <EmptyState showReset />
@@ -38,7 +37,7 @@ const Home = () => {
             gap-8
           "
         >
-          {listings.map((listing: any) => (
+          {allRooms?.result?.map((listing: any) => (
             <ListingCard
               currentUser={loginUser}
               key={listing.id}

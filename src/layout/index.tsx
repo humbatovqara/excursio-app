@@ -1,4 +1,6 @@
 import React from "react";
+// Redux
+import { useAppSelector } from "../hooks/redux";
 // Components
 import Navbar from "../components/navbar/Navbar";
 import ClientOnly from "../components/ClientsOnly";
@@ -8,6 +10,14 @@ import RegisterModal from "../components/modals/RegisterModal";
 import ToasterProvider from "../providers/ToasterProvider";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
+  const {
+    room: { isLoading },
+  } = useAppSelector((state) => state);
+
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
+
   return (
     <>
       <ClientOnly>

@@ -4,17 +4,15 @@ import Container from "../Container";
 import ListingHead from "./ListingHead";
 import ListingInfo from "./ListingInfo";
 import ListingReservation from "./ListingReservation";
-import { categories } from "../navbar/Categories";
 // React Router
 import { useNavigate } from "react-router-dom";
 // Redux
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { authSlice } from "../../redux/reducers/AuthSlice";
+import { postReservations } from "../../redux/actions/Reservation";
 // Libs
-import axios from "axios";
 import { Range } from "react-date-range";
 import { differenceInDays, eachDayOfInterval } from "date-fns";
-import { toast } from "react-hot-toast";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -39,7 +37,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const navigate = useNavigate();
   const { onOpen } = authSlice.actions;
   const {
-    auth: { loginModal },
+    auth: { loginModal, loginUser },
   } = useAppSelector((state) => state);
 
   const disabledDates = useMemo(() => {
@@ -47,8 +45,8 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
     reservations.forEach((reservation: any) => {
       const range = eachDayOfInterval({
-        start: new Date(reservation.startDate),
-        end: new Date(reservation.endDate),
+        start: new Date(reservation.check_in),
+        end: new Date(reservation.check_out),
       });
 
       dates = [...dates, ...range];
@@ -57,39 +55,28 @@ const ListingClient: React.FC<ListingClientProps> = ({
     return dates;
   }, [reservations]);
 
-  const category = useMemo(() => {
-    return categories.find((item) => item.label === listing.category);
-  }, [listing.category]);
-
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
   const onCreateReservation = useCallback(() => {
-    if (!currentUser) {
+    if (!loginUser?.is_success) {
       return dispatch(onOpen());
-    }
-    setIsLoading(true);
+    } else {
+      setIsLoading(true);
 
-    axios
-      .post("", {
-        totalPrice,
-        startDate: dateRange.startDate,
-        endDate: dateRange.endDate,
-        listingId: listing?.id,
-      })
-      .then(() => {
-        toast.success("Listing reserved!");
-        setDateRange(initialDateRange);
-        navigate("/trips");
-      })
-      .catch(() => {
-        toast.error("Something went wrong.");
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [totalPrice, dateRange, listing?.id, navigate, currentUser, loginModal]);
+      dispatch(
+        postReservations({
+          price: totalPrice,
+          check_in: dateRange.startDate,
+          check_out: dateRange.endDate,
+          room_id: listing?.id,
+        })
+      );
+      setDateRange(initialDateRange);
+      navigate("/trips");
+    }
+  }, [totalPrice, dateRange, listing?.id, navigate, loginUser, loginModal]);
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
@@ -114,8 +101,8 @@ const ListingClient: React.FC<ListingClientProps> = ({
         <div className="flex flex-col gap-6">
           <ListingHead
             title={listing.title}
-            imageSrc={listing.imageSrc}
-            locationValue={listing.locationValue}
+            imageSrc={listing.photos[0].url}
+            locationValue={[listing.address_state, listing.address_city]}
             id={listing.id}
             currentUser={currentUser}
           />
@@ -129,13 +116,13 @@ const ListingClient: React.FC<ListingClientProps> = ({
             "
           >
             <ListingInfo
-              user={listing.user}
-              category={category}
+              user={currentUser.result}
+              category={listing.amenities}
               description={listing.description}
-              roomCount={listing.roomCount}
-              guestCount={listing.guestCount}
-              bathroomCount={listing.bathroomCount}
-              locationValue={listing.locationValue}
+              roomCount={listing.room_count}
+              guestCount={listing.max_guest_count}
+              bathroomCount={listing.bed_count}
+              locationValue={[listing.latitude, listing.longitude]}
             />
             <div
               className="
