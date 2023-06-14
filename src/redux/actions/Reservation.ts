@@ -34,3 +34,17 @@ export const postReservations = createAsyncThunk(
     }
   }
 );
+
+export const deleteReservations = createAsyncThunk(
+  "reservations/delete",
+  async (id: any, thunkAPI) => {
+    try {
+      const response = await $api.delete(`${API.MAIN_URL}/reservations/${id}`);
+      thunkAPI.dispatch(getReservations());
+      const { data } = response;
+      return data;
+    } catch (e: any) {
+      return thunkAPI.rejectWithValue("Error");
+    }
+  }
+);

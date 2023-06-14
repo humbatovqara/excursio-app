@@ -1,13 +1,14 @@
 "use client";
 import { useCallback, useState } from "react";
 // Libs
-import axios from "axios";
-import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../hooks/redux";
 // Components
 import Heading from "../Heading";
 import Container from "../Container";
-import ListingCard from "../listings/ListingCard";
+import ReservationCard from "./ReservationCard";
+// Redux
+import { deleteReservations } from "../../redux/actions/Reservation";
 
 interface TripsClientProps {
   reservations: any;
@@ -18,25 +19,14 @@ const TripsClient: React.FC<TripsClientProps> = ({
   reservations,
   currentUser,
 }) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [deletingId, setDeletingId] = useState("");
 
   const onCancel = useCallback(
     (id: string) => {
       setDeletingId(id);
-
-      axios
-        .delete(`/api/reservations/${id}`)
-        .then(() => {
-          toast.success("Reservation cancelled");
-          navigate("/");
-        })
-        .catch((error) => {
-          toast.error(error?.response?.data?.error);
-        })
-        .finally(() => {
-          setDeletingId("");
-        });
+      dispatch(deleteReservations(id));
     },
     [navigate]
   );
@@ -47,7 +37,7 @@ const TripsClient: React.FC<TripsClientProps> = ({
         title="Trips"
         subtitle="Where you've been and where you're going"
       />
-      {/* <div
+      <div
         className="
           mt-10
           grid 
@@ -61,9 +51,9 @@ const TripsClient: React.FC<TripsClientProps> = ({
         "
       >
         {reservations?.result.map((reservation: any) => (
-          <ListingCard
+          <ReservationCard
             key={reservation.id}
-            data={reservation.listing}
+            data={reservation.room}
             reservation={reservation}
             actionId={reservation.id}
             onAction={onCancel}
@@ -72,7 +62,7 @@ const TripsClient: React.FC<TripsClientProps> = ({
             currentUser={currentUser}
           />
         ))}
-      </div> */}
+      </div>
     </Container>
   );
 };

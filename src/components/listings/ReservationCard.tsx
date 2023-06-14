@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 // Components
 import Button from "../Button";
-import HeartButton from "../HeartButton";
 // Libs
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +22,7 @@ interface ListingCardProps {
   currentUser?: any | null;
 }
 
-const ListingCard: React.FC<ListingCardProps> = ({
+const ReservationCard: React.FC<ListingCardProps> = ({
   data,
   reservation,
   onAction,
@@ -101,24 +100,13 @@ const ListingCard: React.FC<ListingCardProps> = ({
               transition
             "
           />
-          {/* <div
-            className="
-            absolute
-            top-3
-            right-3
-          "
-          >
-            <HeartButton listingId={data.id} currentUser={currentUser} />
-          </div> */}
         </div>
-        <div className="font-semibold text-lg">
-          {data?.address_state}, {data?.address_city}
-        </div>
+        <div className="font-semibold text-lg">{data?.title}</div>
         <div className="font-light text-neutral-500">
           {reservationDate || data.category}
         </div>
         <div className="flex flex-row items-center gap-1">
-          <div className="font-semibold">$ {price}</div>
+          <div className="font-semibold">$ {data?.price}</div>
           {!reservation && <div className="font-light">night</div>}
         </div>
         {onAction && actionLabel && (
@@ -134,4 +122,4 @@ const ListingCard: React.FC<ListingCardProps> = ({
   );
 };
 
-export default ListingCard;
+export default ReservationCard;
