@@ -28,6 +28,17 @@ interface ListingClientProps {
   currentUser?: any | null;
 }
 
+const getLocalTimezoneOffset = () => {
+  const currentDate = new Date();
+  return currentDate.getTimezoneOffset() * 60000;
+};
+
+const calculatePostTime = (date: any) => {
+  const localOffset = getLocalTimezoneOffset();
+  const adjustedDate = new Date(date.getTime() - localOffset);
+  return adjustedDate.toISOString().split("T")[0];
+};
+
 const ListingClient: React.FC<ListingClientProps> = ({
   listing,
   reservations = [],
@@ -68,13 +79,13 @@ const ListingClient: React.FC<ListingClientProps> = ({
       dispatch(
         postReservations({
           price: totalPrice,
-          check_in: dateRange.startDate,
-          check_out: dateRange.endDate,
+          check_in: calculatePostTime(dateRange?.startDate),
+          check_out: calculatePostTime(dateRange?.endDate),
           room_id: listing?.id,
         })
       );
       setDateRange(initialDateRange);
-      navigate("/trips");
+      navigate("/reservations");
     }
   }, [totalPrice, dateRange, listing?.id, navigate, loginUser, loginModal]);
 

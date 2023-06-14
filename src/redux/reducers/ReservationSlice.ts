@@ -1,5 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getReservations, postReservations } from "../actions/Reservation";
+import {
+  deleteReservations,
+  getReservations,
+  postReservations,
+} from "../actions/Reservation";
 import { toast } from "react-hot-toast";
 
 interface IReservation {
@@ -43,6 +47,25 @@ export const reservationSlice = createSlice({
     },
     [postReservations.rejected.type]: (state, action: PayloadAction<any>) => {
       state.isLoading = false;
+    },
+
+    // Delete Reservations
+    [deleteReservations.fulfilled.type]: (
+      state,
+      action: PayloadAction<any>
+    ) => {
+      state.isLoading = false;
+      toast.success("Reservation cancelled!");
+    },
+    [deleteReservations.pending.type]: (
+      state,
+      action: PayloadAction<string>
+    ) => {
+      state.isLoading = true;
+    },
+    [deleteReservations.rejected.type]: (state, action: PayloadAction<any>) => {
+      state.isLoading = false;
+      toast.success("Error Deleting!");
     },
   },
 });

@@ -60,7 +60,7 @@ const UserMenu = () => {
             transition 
             cursor-pointer"
         >
-          Airbnb your home
+          Rent your home
         </div>
         <div
           onClick={toggleOpen}
@@ -115,7 +115,7 @@ const UserMenu = () => {
                 <MenuItem onClick={() => {}} label="My properties" />
                 <MenuItem
                   onClick={() => dispatch(onRentModalOpen())}
-                  label="Airbnb my home"
+                  label="Rent my home"
                 />
                 <hr />
                 <MenuItem
