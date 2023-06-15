@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { authSlice } from "../../redux/reducers/AuthSlice";
 import { postReservations } from "../../redux/actions/Reservation";
+import { getReviews } from "../../redux/actions/Review";
 // Libs
 import { Range } from "react-date-range";
 import { differenceInDays, eachDayOfInterval } from "date-fns";
@@ -49,6 +50,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const { onOpen } = authSlice.actions;
   const {
     auth: { loginModal, loginUser },
+    review: { reviews },
   } = useAppSelector((state) => state);
 
   const disabledDates = useMemo(() => {
@@ -134,6 +136,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
               guestCount={listing.max_guest_count}
               bathroomCount={listing.bed_count}
               locationValue={[listing.latitude, listing.longitude]}
+              reviews={reviews}
             />
             <div
               className="

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { login, logout, user, usersMe } from "../actions/Auth";
+import { getUserId, login, logout, user, usersMe } from "../actions/Auth";
 import { toast } from "react-hot-toast";
 
 interface IAuth {
@@ -13,6 +13,7 @@ interface IAuth {
     isOpen: boolean;
     message: string;
   };
+  getUserId: any;
 }
 
 const initialState: IAuth = {
@@ -26,6 +27,7 @@ const initialState: IAuth = {
     isOpen: false,
     message: "",
   },
+  getUserId: [],
 };
 
 export const authSlice = createSlice({
@@ -79,7 +81,7 @@ export const authSlice = createSlice({
       state.isLoading = true;
     },
     [user.rejected.type]: (state) => {
-      state.isLoading = true;
+      state.isLoading = false;
       toast.error("Something Went Wrong!");
     },
     // Users Me
@@ -89,6 +91,10 @@ export const authSlice = createSlice({
     [usersMe.pending.type]: (state) => {},
     [usersMe.rejected.type]: (state, action: PayloadAction<any>) => {
       state.loginUser = action.payload;
+    },
+    // Get User ID
+    [getUserId.fulfilled.type]: (state, action: PayloadAction<any>) => {
+      state.getUserId = action.payload;
     },
   },
 });

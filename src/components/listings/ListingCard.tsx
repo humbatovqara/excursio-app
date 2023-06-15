@@ -12,6 +12,7 @@ import { getRoomId } from "../../redux/actions/Room";
 import useCountries from "../../hooks/useCountries";
 // Enums
 import API from "../../enums/api";
+import { getReviews } from "../../redux/actions/Review";
 
 interface ListingCardProps {
   data: any;
@@ -73,6 +74,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
   const handleClickListingCard = () => {
     navigate(`/listings/${data.id}`);
     dispatch(getRoomId(data.id));
+    dispatch(getReviews(data.id));
   };
 
   return (

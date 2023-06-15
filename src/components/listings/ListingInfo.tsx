@@ -1,10 +1,13 @@
 "use client";
 
-import { IconType } from "react-icons";
-import useCountries from "../../hooks/useCountries";
-import Avatar from "../Avatar";
-import ListingCategory from "./ListingCategory";
 import React from "react";
+//
+import useCountries from "../../hooks/useCountries";
+//
+import Avatar from "../Avatar";
+import Review from "./ListingReview";
+import ListingCategory from "./ListingCategory";
+import { IconType } from "react-icons";
 
 const Map = React.lazy(() => import("../Map"));
 
@@ -16,6 +19,7 @@ interface ListingInfoProps {
   bathroomCount: number;
   category: any | undefined;
   locationValue: any[];
+  reviews: any;
 }
 
 const ListingInfo: React.FC<ListingInfoProps> = ({
@@ -26,6 +30,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   bathroomCount,
   category,
   locationValue,
+  reviews,
 }) => {
   const { getByValue } = useCountries();
 
@@ -79,6 +84,8 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
       >
         {description}
       </div>
+      <hr />
+      <Review onSubmit={() => {}} previousReviews={reviews} />
       <hr />
       <Map center={locationValue} />
     </div>

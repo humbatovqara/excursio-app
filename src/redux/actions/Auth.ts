@@ -61,3 +61,17 @@ export const usersMe = createAsyncThunk("users/me", async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue("Error");
   }
 });
+
+export const getUserId = createAsyncThunk(
+  "users/id",
+  async (id: number, thunkAPI) => {
+    try {
+      const response = await axios.get(`${API.MAIN_URL}/users/${id}`);
+      const { data } = response;
+
+      return data;
+    } catch (e: any) {
+      return thunkAPI.rejectWithValue("Error");
+    }
+  }
+);
