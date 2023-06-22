@@ -11,12 +11,12 @@ import ReservationCard from "./ReservationCard";
 import { deleteReservations } from "../../redux/actions/Reservation";
 
 interface TripsClientProps {
-  reservations: any;
+  reservationsList: any;
   currentUser?: any;
 }
 
 const TripsClient: React.FC<TripsClientProps> = ({
-  reservations,
+  reservationsList,
   currentUser,
 }) => {
   const dispatch = useAppDispatch();
@@ -50,7 +50,7 @@ const TripsClient: React.FC<TripsClientProps> = ({
           gap-8
         "
       >
-        {reservations?.result.map((reservation: any) => (
+        {reservationsList?.result.map((reservation: any) => (
           <ReservationCard
             key={reservation.id}
             data={reservation.room}

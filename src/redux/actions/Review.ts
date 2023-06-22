@@ -16,7 +16,7 @@ export const getReviews = createAsyncThunk(
       const response = await $api.get(`${API.MAIN_URL}/reviews/${id}`);
       const { data } = response;
       data?.result?.map((user: any) => {
-        thunkAPI.dispatch(getUserId(user?.user_id));
+        thunkAPI.dispatch(getUserId(user?.user?.id));
       });
       return data;
     } catch (e: any) {

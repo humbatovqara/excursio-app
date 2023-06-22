@@ -35,7 +35,7 @@ const ReservationCard: React.FC<ListingCardProps> = ({
   const dispatch = useAppDispatch();
   const { getByValue } = useCountries();
 
-  const location = getByValue(data.address_zip_code);
+  const location = getByValue(data?.address_zip_code);
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -55,23 +55,23 @@ const ReservationCard: React.FC<ListingCardProps> = ({
       return reservation.totalPrice;
     }
 
-    return data.price;
-  }, [reservation, data.price]);
+    return data?.price;
+  }, [reservation, data?.price]);
 
   const reservationDate = useMemo(() => {
     if (!reservation) {
       return null;
     }
 
-    const start = new Date(reservation.check_in);
-    const end = new Date(reservation.check_out);
+    const start = new Date(reservation?.check_in);
+    const end = new Date(reservation?.check_out);
 
     return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [reservation]);
 
   const handleClickListingCard = () => {
-    navigate(`/listings/${data.id}`);
-    dispatch(getRoomId(data.id));
+    navigate(`/listings/${data?.id}`);
+    dispatch(getRoomId(data?.id));
   };
 
   return (
@@ -90,7 +90,7 @@ const ReservationCard: React.FC<ListingCardProps> = ({
           "
         >
           <img
-            src={`${API.MAIN_URL}/${data.photos[0].url}`}
+            src={`${API.MAIN_URL}/${data?.photos[0].url}`}
             alt="Listing"
             className="
               object-cover 

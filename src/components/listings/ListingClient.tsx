@@ -72,7 +72,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const [totalPrice, setTotalPrice] = useState(listing.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
-  const onCreateReservation = useCallback(() => {
+  /* const onCreateReservation = useCallback(() => {
     if (!loginUser?.is_success) {
       return dispatch(onOpen());
     } else {
@@ -89,7 +89,25 @@ const ListingClient: React.FC<ListingClientProps> = ({
       setDateRange(initialDateRange);
       navigate("/reservations");
     }
-  }, [totalPrice, dateRange, listing?.id, navigate, loginUser, loginModal]);
+  }, [totalPrice, dateRange, listing?.id, navigate, loginUser, loginModal]); */
+  const onCreateReservation = () => {
+    if (!loginUser?.is_success) {
+      return dispatch(onOpen());
+    } else {
+      setIsLoading(true);
+
+      dispatch(
+        postReservations({
+          price: totalPrice,
+          check_in: calculatePostTime(dateRange?.startDate),
+          check_out: calculatePostTime(dateRange?.endDate),
+          room_id: listing?.id,
+        })
+      );
+      setDateRange(initialDateRange);
+      navigate("/reservations");
+    }
+  };
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {

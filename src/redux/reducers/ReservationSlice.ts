@@ -8,12 +8,12 @@ import { toast } from "react-hot-toast";
 
 interface IReservation {
   isLoading: boolean;
-  reservations: any;
+  reservationsList: any;
 }
 
 const initialState: IReservation = {
   isLoading: false,
-  reservations: [],
+  reservationsList: [],
 };
 
 export const reservationSlice = createSlice({
@@ -29,7 +29,7 @@ export const reservationSlice = createSlice({
     [getReservations.fulfilled.type]: (state, action: PayloadAction<any>) => {
       toast.success("Listing reserved!");
       state.isLoading = false;
-      state.reservations = action.payload;
+      state.reservationsList = action.payload;
     },
     [getReservations.pending.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = true;

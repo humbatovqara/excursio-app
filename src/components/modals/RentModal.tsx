@@ -111,7 +111,6 @@ const RentModal = () => {
     if (step !== STEPS.PRICE) {
       return onNext();
     }
-    console.log("Rend Modal Submit", data);
     setIsLoading(true);
     dispatch(createRoom(data));
     reset();

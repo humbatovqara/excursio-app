@@ -12,7 +12,7 @@ const TripsPage = () => {
 
   const {
     auth: { loginUser },
-    reservation: { reservations },
+    reservation: { reservationsList },
   } = useAppSelector((state) => state);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const TripsPage = () => {
     );
   }
 
-  if (reservations?.length === 0) {
+  if (reservationsList?.length === 0) {
     return (
       <ClientOnly>
         <EmptyState
@@ -41,7 +41,7 @@ const TripsPage = () => {
   return (
     <ClientOnly>
       <TripsClient
-        reservations={reservations}
+        reservationsList={reservationsList}
         currentUser={loginUser?.result}
       />
     </ClientOnly>

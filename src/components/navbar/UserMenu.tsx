@@ -103,8 +103,8 @@ const UserMenu = () => {
           <div className="flex flex-col cursor-pointer">
             {loginUser?.is_success ? (
               <>
-                <MenuItem onClick={() => {}} label="My trips" />
-                <MenuItem onClick={() => {}} label="My favorites" />
+                {/* <MenuItem onClick={() => {}} label="My trips" /> */}
+                {/* <MenuItem onClick={() => {}} label="My favorites" /> */}
                 <MenuItem
                   onClick={() => {
                     navigate("/reservations");
@@ -112,7 +112,7 @@ const UserMenu = () => {
                   }}
                   label="My reservations"
                 />
-                <MenuItem onClick={() => {}} label="My properties" />
+                {/* <MenuItem onClick={() => {}} label="My properties" /> */}
                 <MenuItem
                   onClick={() => dispatch(onRentModalOpen())}
                   label="Rent my home"

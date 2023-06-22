@@ -54,8 +54,6 @@ export const usersMe = createAsyncThunk("users/me", async (_, thunkAPI) => {
     const response = await $api.get(`${API.MAIN_URL}/users/me`);
     const { data } = response;
 
-    console.log("User Me / Refresh Data: ", data);
-
     return data;
   } catch (e: any) {
     return thunkAPI.rejectWithValue("Error");

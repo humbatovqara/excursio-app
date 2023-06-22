@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 // Hooks
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useParams } from "react-router-dom";
 // Redux
 import { postReviews } from "../../redux/actions/Review";
 import { authSlice } from "../../redux/reducers/AuthSlice";
@@ -14,12 +15,11 @@ interface ReviewProps {
 
 const Review: React.FC<ReviewProps> = ({ onSubmit, previousReviews }) => {
   const dispatch = useAppDispatch();
+  const { id } = useParams();
   const { onOpen } = authSlice.actions;
   const {
     auth: { loginModal, loginUser, getUserId },
   } = useAppSelector((state) => state);
-
-  console.log("getUserId: ", getUserId);
 
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(0);
@@ -34,13 +34,13 @@ const Review: React.FC<ReviewProps> = ({ onSubmit, previousReviews }) => {
     setRating(newRating);
   };
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = () => {
     if (!loginUser?.is_success) {
       return dispatch(onOpen());
     }
 
     const sendData = {
-      room_id: 9,
+      room_id: Number(id),
       stars: rating,
       comment: review,
     };
@@ -49,7 +49,7 @@ const Review: React.FC<ReviewProps> = ({ onSubmit, previousReviews }) => {
     onSubmit(review, rating);
     setReview("");
     setRating(0);
-  }, [loginUser, loginModal]);
+  };
 
   return (
     <div>
@@ -60,7 +60,9 @@ const Review: React.FC<ReviewProps> = ({ onSubmit, previousReviews }) => {
           {previousReviews?.result?.map((prevReview: any) => (
             <div key={prevReview.id} className="mb-4">
               <div className="flex items-center mb-2">
-                <span className="text-lg">User ID:</span>
+                <span className="text-lg">
+                  User: {prevReview?.user?.full_name}
+                </span>
                 <div className="flex ml-4">
                   {[1, 2, 3, 4, 5].map((value) => (
                     <FaStar

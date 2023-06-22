@@ -28,6 +28,7 @@ export const postReservations = createAsyncThunk(
     try {
       const response = await $api.post(`${API.MAIN_URL}/reservations/`, body);
       const { data } = response;
+      thunkAPI.dispatch(getReservations());
       return data;
     } catch (e: any) {
       return thunkAPI.rejectWithValue("Error");

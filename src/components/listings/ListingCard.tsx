@@ -37,7 +37,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
   const dispatch = useAppDispatch();
   const { getByValue } = useCountries();
 
-  const location = getByValue(data.address_zip_code);
+  const location = getByValue(data?.address_zip_code);
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -57,8 +57,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
       return reservation.totalPrice;
     }
 
-    return data.price;
-  }, [reservation, data.price]);
+    return data?.price;
+  }, [reservation, data?.price]);
 
   const reservationDate = useMemo(() => {
     if (!reservation) {
@@ -72,9 +72,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
   }, [reservation]);
 
   const handleClickListingCard = () => {
-    navigate(`/listings/${data.id}`);
-    dispatch(getRoomId(data.id));
-    dispatch(getReviews(data.id));
+    navigate(`/listings/${data?.id}`);
+    dispatch(getRoomId(data?.id));
+    dispatch(getReviews(data?.id));
   };
 
   return (
